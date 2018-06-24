@@ -1,7 +1,7 @@
 <?php
 
 	// Bot token obtained from Botfather
-	$bot_token  ="524337167:AAFjHn93_toBweBbIxJnLOlRkujK0Scc4Xw"; 
+	$bot_token  ="Bot token"; 
 
 	//optional 
 	$dbhost     ="db host";  

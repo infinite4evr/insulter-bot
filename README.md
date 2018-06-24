@@ -37,4 +37,3 @@ Example insult : *John Doe is as hideous as a detrimental cloud of faulty cockro
 
 ###### DISCLAIMER : NO ANIMALS WERE HARMED WHILE MAKING OF THIS INSULTING SCRIPT
 
-Credit : Shades

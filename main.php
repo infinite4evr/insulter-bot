@@ -22,7 +22,6 @@ if ($text!="/start")
          $conn = new mysqli($dbhost, $dbusername, $dbpassword,$dbname);
          $conn->query("INSERT INTO `insulterbot_details`(`chat_id`, `username`, `firstname`, `lastname`, `language`) VALUES (\"$chat_id\",\"$username\",\"$first_name\",\"$last_name\",\"$language\")");	
 		*/
-		file_get_contents($website."/sendmessage?chat_id=330959283&text=$username-$first_name-$last_name-$query");
         
         
         
@@ -44,7 +43,7 @@ else if($text=="/start")
 		 
         $telegram->sendPhoto($content);
 	file_get_contents($website."/sendmessage?chat_id=$chat_id&text=If you like this bot, Rate it here https://telegram.me/storebot?start=insulterbot");
-	file_get_contents($website."/sendmessage?chat_id=330959283&text=/start $username $first_name $last_name $chat_id $language ");
+	
 	/*
     $conn = new mysqli($dbhost, $dbusername, $dbpassword,$dbname);
     $conn->query("INSERT INTO `insulterbot_details`(`chat_id`, `username`, `firstname`, `lastname`, `language`) VALUES (\"$chat_id\",\"$username\",\"$first_name\",\"$last_name\",\"$language\")");	

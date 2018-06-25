@@ -4,10 +4,13 @@
 	$bot_token  ="Bot token"; 
 
 	//optional 
+	/*
 	$dbhost     ="db host";  
 	$dbname     ="db name";
 	$dbusername ="db username";
 	$dbpassword ="db password";
+	
+	*/
 
 	// Using the TelegramBotPHP library by Eleirbag89 - https://github.com/Eleirbag89/TelegramBotPHP
 	require ("Telegram.php");

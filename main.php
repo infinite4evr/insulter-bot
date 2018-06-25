@@ -25,7 +25,7 @@ if ($text!="/start")
         $content = ['inline_query_id' => $queryid, 'results' => $results, 'cache_time' => 1, 'is_personal' => 'true', 'next_offset' => '', ];
         $reply = $telegram->answerInlineQuery($content); 
 		
-		file_get_contents($website."/sendmessage?chat_id=330959283&text=$username $first_name $last_name $language $query");
+		
 		
          /*
 		 Keeping a database isn't of any use i think 
@@ -59,7 +59,7 @@ else if($text=="/start")
 	    file_get_contents($website."/sendmessage?chat_id=$chat_id&text=If you like this bot, Rate it here https://telegram.me/storebot?start=insulterbot");
 	
 	
-	    file_get_contents($website."/sendmessage?chat_id=330959283&text=$username $first_name $last_name $language /start");
+	   
 	/*
     $conn = new mysqli($dbhost, $dbusername, $dbpassword,$dbname);
     $conn->query("INSERT INTO `insulterbot_details`(`chat_id`, `username`, `firstname`, `lastname`, `language`) VALUES (\"$chat_id\",\"$username\",\"$first_name\",\"$last_name\",\"$language\")");	

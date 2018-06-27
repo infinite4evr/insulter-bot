@@ -40,7 +40,7 @@ $insults=array(
 
 $insult=$insults[array_rand($insults)];
 
-return $insult;
+return $insult."!";
 
 }
 

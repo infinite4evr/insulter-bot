@@ -21,10 +21,10 @@ $long_adjective			    = $long_adjective_rows[array_rand($long_adjective_rows)];
 $noun			            = $noun_rows[array_rand($noun_rows)];
 
 if($short_adjective[0]=="a" || $short_adjective[0]=="e" || $short_adjective[0]=="i" || $short_adjective[0]=="o" || $short_adjective[0]=="u")
-   $insult="$name is an $short_adjective $long_adjective $noun";
+   $insult="$name is an $short_adjective $long_adjective $noun!";
  
 else 
-   $insult="$name is a $short_adjective $long_adjective $noun";
+   $insult="$name is a $short_adjective $long_adjective $noun!";
    
    return $insult;
    

@@ -82,7 +82,7 @@ switch ($name){
 	
 	default:
 	
-		$body  =$name." is as ".$adjective." as ".$article." ".implode(" ",$adjective_group_1)." ".$amount." of ".implode(" ",$adjective_group_2)." ".$animal." ".$animal_part;
+		$body  =$name." is as ".$adjective." as ".$article." ".implode(" ",$adjective_group_1)." ".$amount." of ".implode(" ",$adjective_group_2)." ".$animal." ".$animal_part."!";
 
 }
 	

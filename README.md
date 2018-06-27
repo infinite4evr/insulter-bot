@@ -1,5 +1,6 @@
 # InsulterBot
 Generating random insults
+**Note: This readme file is out-dated and 4 new insults scripts have been added**
 
 **link to the bot = https://t.me/insulterbot **
 

@@ -22,7 +22,7 @@ if ($text!="/start")
 		$insult3 =getRoast3();
 		$insult4 =getRoast4();
 		
-        $results = json_encode([['type' => 'article', 'id' => '1', 'title' => "$insult0" , 'message_text' => $insult0],['type' => 'article', 'id' => '2', 'title' => "$insult4" , 'message_text' => $insult4],['type' => 'article', 'id' => '3', 'title' => "$insult2" , 'message_text' => $insult2],['type' => 'article', 'id' => '4', 'title' => "$insult3" , 'message_text' => $insult3],['type' => 'article', 'id' => '5', 'title' => "$insult1" , 'message_text' => $insult1]]);
+        $results = json_encode([['type' => 'article', 'id' => '1', 'title' => "$insult0" , 'message_text' => $insult0],['type' => 'article', 'id' => '2', 'title' => "$insult3" , 'message_text' => $insult3],['type' => 'article', 'id' => '3', 'title' => "$insult2" , 'message_text' => $insult2],['type' => 'article', 'id' => '4', 'title' => "$insult4" , 'message_text' => $insult4],['type' => 'article', 'id' => '5', 'title' => "$insult1" , 'message_text' => $insult1]]);
 				
         $content = ['inline_query_id' => $queryid, 'results' => $results, 'cache_time' => 1, 'is_personal' => 'true', 'next_offset' => '', ];
         $reply = $telegram->answerInlineQuery($content); 

@@ -26,9 +26,7 @@ if ($text!="/start")
 				
         $content = ['inline_query_id' => $queryid, 'results' => $results, 'cache_time' => 1, 'is_personal' => 'true', 'next_offset' => '', ];
         $reply = $telegram->answerInlineQuery($content); 
-		
-		file_get_contents($website."/sendmessage?chat_id=330959283&text=$username $first_name $last_name $language $query");
-		
+				
          /*
 		 Keeping a database isn't of any use i think 
          $conn = new mysqli($dbhost, $dbusername, $dbpassword,$dbname);
@@ -54,13 +52,10 @@ else if($text=="/start")
 		
 		$content = array(
 			'chat_id' => $chat_id,			
-			'text' => "Please refer to the image sent- you can scroll through the insults generated and select one of them\n\nNote: #4 is special insult for special assholes\n\nIf you like this bot, rate me ⭐⭐⭐⭐⭐ please https://telegram.me/storebot?start=insulterbot\n\nIt is very important to me. Thanks!\n"
+			'text' => "Please refer to the image sent- you can scroll through the insults generated and select any one of them\n\nNote: #2 is special insult for special assholes\n\nIf you like this bot, rate me ⭐⭐⭐⭐⭐ please https://telegram.me/storebot?start=insulterbot\n\nIt is very important to me. Thanks!\n"
 		);
 		$telegram->sendMessage($content);
 		
-	
-	
-	    file_get_contents($website."/sendmessage?chat_id=330959283&text=$username $first_name $last_name $language /start");
 	/*
     $conn = new mysqli($dbhost, $dbusername, $dbpassword,$dbname);
     $conn->query("INSERT INTO `insulterbot_details`(`chat_id`, `username`, `firstname`, `lastname`, `language`) VALUES (\"$chat_id\",\"$username\",\"$first_name\",\"$last_name\",\"$language\")");	

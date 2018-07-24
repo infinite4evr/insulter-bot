@@ -28,15 +28,15 @@ $noun        		    = $noun_rows[array_rand($noun_rows)];
 $insults=array(
 "you're being this much of a $adjective $noun",
 "you're being such a $adjective $expletive $noun",
-"you're being a $adjective $noun $noun",
-"fucking $compound_adjective $adjective $noun $noun ass bitch",
+"you're being a $adjective $noun",
+"fucking $compound_adjective $adjective $noun ass bitch",
 "$you look like a $adjective $noun and a $noun at the same $expletive time you $expletive $noun",
 "$expletive $adjective $adjective $noun",
 "$expletive $adjective $adjective $adjective ass $noun",
 "you're a $adjective $expletive $noun",
 "what a $expletive $adjective $noun you are",
-"fucking $noun $noun $noun",
-"$expletive $adjective $noun $noun");
+"fucking $noun",
+"$expletive $adjective $noun");
 
 $insult=$insults[array_rand($insults)];
 

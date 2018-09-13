@@ -1,6 +1,8 @@
 <?php
 
-
+if (file_exists('TelegramErrorLogger.php')) {
+    require_once 'TelegramErrorLogger.php';
+}
 
 /**
  * Telegram Bot Class.
@@ -3090,7 +3092,10 @@ class Telegram
 		echo $result;
         curl_close($ch);
         if ($this->log_errors) {
-            
+            if (class_exists('TelegramErrorLogger')) {
+                $loggerArray = ($this->getData() == null) ? [$content] : [$this->getData(), $content];
+                TelegramErrorLogger::log(json_decode($result, true), $loggerArray);
+            }
         }
 
         return $result;

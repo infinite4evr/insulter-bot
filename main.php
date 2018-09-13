@@ -42,8 +42,8 @@ else if(stristr($data['message']['text'],'/insult')!=false)
 {   
 	$group_data = get_group_info($data);
 	$query      = $data['message']['text'];
-	$query      = explode(" ",$query);	
-	$query      = $query[1];
+	$query      = substr(7,$query);
+	trim($query);
 
 	if($query!=null)
 	{	

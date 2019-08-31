@@ -68,23 +68,23 @@ class Telegram
     private $data = [];
     private $updates = [];
     private $log_errors;
-	private $proxy;
+    private $proxy;
 
     /// Class constructor
 
     /**
      * Create a Telegram instance from the bot token
      * \param $bot_token the bot token
-	 * \param $log_errors enable or disable the logging
-	 * \param $proxy array with the proxy configuration (url, port, type, auth)
+     * \param $log_errors enable or disable the logging
+     * \param $proxy array with the proxy configuration (url, port, type, auth)
      * \return an instance of the class.
      */
-    public function __construct($bot_token, $log_errors = true, array $proxy=array())
+    public function __construct($bot_token, $log_errors = true, array $proxy = array())
     {
         $this->bot_token = $bot_token;
         $this->data = $this->getData();
         $this->log_errors = $log_errors;
-		$this->proxy = $proxy;
+        $this->proxy = $proxy;
     }
 
     /// Do requests to Telegram Bot API
@@ -98,7 +98,7 @@ class Telegram
      */
     public function endpoint($api, array $content, $post = true)
     {
-        $url = 'https://api.telegram.org/bot'.$this->bot_token.'/'.$api;
+        $url = 'https://api.telegram.org/bot' . $this->bot_token . '/' . $api;
         if ($post) {
             $reply = $this->sendAPIRequest($url, $content);
         } else {
@@ -1587,7 +1587,7 @@ class Telegram
      */
     public function downloadFile($telegram_file_path, $local_file_path)
     {
-        $file_url = 'https://api.telegram.org/file/bot'.$this->bot_token.'/'.$telegram_file_path;
+        $file_url = 'https://api.telegram.org/file/bot' . $this->bot_token . '/' . $telegram_file_path;
         $in = fopen($file_url, 'rb');
         $out = fopen($local_file_path, 'wb');
 
@@ -1951,10 +1951,10 @@ class Telegram
     public function buildKeyBoard(array $options, $onetime = false, $resize = false, $selective = true)
     {
         $replyMarkup = [
-            'keyboard'          => $options,
+            'keyboard' => $options,
             'one_time_keyboard' => $onetime,
-            'resize_keyboard'   => $resize,
-            'selective'         => $selective,
+            'resize_keyboard' => $resize,
+            'selective' => $selective,
         ];
         $encodedMarkup = json_encode($replyMarkup, true);
 
@@ -2022,8 +2022,8 @@ class Telegram
     public function buildKeyboardButton($text, $request_contact = false, $request_location = false)
     {
         $replyMarkup = [
-            'text'             => $text,
-            'request_contact'  => $request_contact,
+            'text' => $text,
+            'request_contact' => $request_contact,
             'request_location' => $request_location,
         ];
 
@@ -2040,7 +2040,7 @@ class Telegram
     {
         $replyMarkup = [
             'remove_keyboard' => true,
-            'selective'       => $selective,
+            'selective' => $selective,
         ];
         $encodedMarkup = json_encode($replyMarkup, true);
 
@@ -2056,7 +2056,7 @@ class Telegram
     {
         $replyMarkup = [
             'force_reply' => true,
-            'selective'   => $selective,
+            'selective' => $selective,
         ];
         $encodedMarkup = json_encode($replyMarkup, true);
 
@@ -3051,7 +3051,7 @@ class Telegram
     private function sendAPIRequest($url, array $content, $post = true)
     {
         if (isset($content['chat_id'])) {
-            $url = $url.'?chat_id='.$content['chat_id'];
+            $url = $url . '?chat_id=' . $content['chat_id'];
             unset($content['chat_id']);
         }
         $ch = curl_init();
@@ -3062,34 +3062,34 @@ class Telegram
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
         }
-		echo "inside curl if";
-		if (!empty($this->proxy)) {
-			echo "inside proxy if";
-			if (array_key_exists("type", $this->proxy)) {
-				curl_setopt($ch, CURLOPT_PROXYTYPE, $this->proxy["type"]);
-			}
-			
-			if (array_key_exists("auth", $this->proxy)) {
-				curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy["auth"]);
-			}
-			
-			if (array_key_exists("url", $this->proxy)) {
-				echo "Proxy Url";
-				curl_setopt($ch, CURLOPT_PROXY, $this->proxy["url"]);
-			}
-			
-			if (array_key_exists("port", $this->proxy)) {
-				echo "Proxy port";
-				curl_setopt($ch, CURLOPT_PROXYPORT, $this->proxy["port"]);
-			}
-			
-		}
+        echo "inside curl if";
+        if (!empty($this->proxy)) {
+            echo "inside proxy if";
+            if (array_key_exists("type", $this->proxy)) {
+                curl_setopt($ch, CURLOPT_PROXYTYPE, $this->proxy["type"]);
+            }
+
+            if (array_key_exists("auth", $this->proxy)) {
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy["auth"]);
+            }
+
+            if (array_key_exists("url", $this->proxy)) {
+                echo "Proxy Url";
+                curl_setopt($ch, CURLOPT_PROXY, $this->proxy["url"]);
+            }
+
+            if (array_key_exists("port", $this->proxy)) {
+                echo "Proxy port";
+                curl_setopt($ch, CURLOPT_PROXYPORT, $this->proxy["port"]);
+            }
+
+        }
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $result = curl_exec($ch);
         if ($result === false) {
-            $result = json_encode(['ok'=>false, 'curl_error_code' => curl_errno($ch), 'curl_error' => curl_error($ch)]);
+            $result = json_encode(['ok' => false, 'curl_error_code' => curl_errno($ch), 'curl_error' => curl_error($ch)]);
         }
-		echo $result;
+        echo $result;
         curl_close($ch);
         if ($this->log_errors) {
             if (class_exists('TelegramErrorLogger')) {
@@ -3107,7 +3107,7 @@ if (!function_exists('curl_file_create')) {
     function curl_file_create($filename, $mimetype = '', $postname = '')
     {
         return "@$filename;filename="
-        .($postname ?: basename($filename))
-        .($mimetype ? ";type=$mimetype" : '');
+            . ($postname ?: basename($filename))
+            . ($mimetype ? ";type=$mimetype" : '');
     }
 }

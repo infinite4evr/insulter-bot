@@ -6,68 +6,82 @@ if (file_exists('TelegramErrorLogger.php')) {
 
 /**
  * Telegram Bot Class.
- *
- * @author Gabriele Grillo <gabry.grillo@alice.it>
  */
 class Telegram
 {
     /**
      * Constant for type Inline Query.
      */
-    const INLINE_QUERY = 'inline_query';
+    public const INLINE_QUERY = 'inline_query';
+
     /**
      * Constant for type Callback Query.
      */
-    const CALLBACK_QUERY = 'callback_query';
+    public const CALLBACK_QUERY = 'callback_query';
+
     /**
      * Constant for type Edited Message.
      */
-    const EDITED_MESSAGE = 'edited_message';
+    public const EDITED_MESSAGE = 'edited_message';
+
     /**
      * Constant for type Reply.
      */
-    const REPLY = 'reply';
+    public const REPLY = 'reply';
+
     /**
      * Constant for type Message.
      */
-    const MESSAGE = 'message';
+    public const MESSAGE = 'message';
+
     /**
      * Constant for type Photo.
      */
-    const PHOTO = 'photo';
+    public const PHOTO = 'photo';
+
     /**
      * Constant for type Video.
      */
-    const VIDEO = 'video';
+    public const VIDEO = 'video';
+
     /**
      * Constant for type Audio.
      */
-    const AUDIO = 'audio';
+    public const AUDIO = 'audio';
+
     /**
      * Constant for type Voice.
      */
-    const VOICE = 'voice';
+    public const VOICE = 'voice';
+
     /**
      * Constant for type Document.
      */
-    const DOCUMENT = 'document';
+    public const DOCUMENT = 'document';
+
     /**
      * Constant for type Location.
      */
-    const LOCATION = 'location';
+    public const LOCATION = 'location';
+
     /**
      * Constant for type Contact.
      */
-    const CONTACT = 'contact';
+    public const CONTACT = 'contact';
+
     /**
      * Constant for type Channel Post.
      */
-    const CHANNEL_POST = 'channel_post';
+    public const CHANNEL_POST = 'channel_post';
 
     private $bot_token = '';
+
     private $data = [];
+
     private $updates = [];
+
     private $log_errors;
+
     private $proxy;
 
     /// Class constructor
@@ -79,7 +93,7 @@ class Telegram
      * \param $proxy array with the proxy configuration (url, port, type, auth)
      * \return an instance of the class.
      */
-    public function __construct($bot_token, $log_errors = true, array $proxy = array())
+    public function __construct($bot_token, $log_errors = true, array $proxy = [])
     {
         $this->bot_token = $bot_token;
         $this->data = $this->getData();
@@ -99,6 +113,7 @@ class Telegram
     public function endpoint($api, array $content, $post = true)
     {
         $url = 'https://api.telegram.org/bot' . $this->bot_token . '/' . $api;
+
         if ($post) {
             $reply = $this->sendAPIRequest($url, $content);
         } else {
@@ -926,7 +941,7 @@ class Telegram
     }
 
     //Send contact
-    /**Use this method to send phone contacts. On success, the sent <a href="https://core.telegram.org/bots/api#message">Message</a> is returned.</p> <br/>Values inside $content:<br/>
+    /*Use this method to send phone contacts. On success, the sent <a href="https://core.telegram.org/bots/api#message">Message</a> is returned.</p> <br/>Values inside $content:<br/>
      * <table>
      * <tr>
      * <td><strong>Parameters</strong></td>
@@ -1610,10 +1625,10 @@ class Telegram
      */
     public function setWebhook($url, $certificate = '')
     {
-        if ($certificate == '') {
+        if ($certificate === '') {
             $requestBody = ['url' => $url];
         } else {
-            $requestBody = ['url' => $url, 'certificate' => "@$certificate"];
+            $requestBody = ['url' => $url, 'certificate' => "@${certificate}"];
         }
 
         return $this->endpoint('setWebhook', $requestBody, true);
@@ -1641,9 +1656,9 @@ class Telegram
             $rawData = file_get_contents('php://input');
 
             return json_decode($rawData, true);
-        } else {
-            return $this->data;
         }
+
+        return $this->data;
     }
 
     /// Set the data currently used
@@ -1660,22 +1675,25 @@ class Telegram
     public function Text()
     {
         $type = $this->getUpdateType();
-        if ($type == self::CALLBACK_QUERY) {
-            return @$this->data['callback_query']['data'];
-        }
-        if ($type == self::CHANNEL_POST) {
-            return @$this->data['channel_post']['text'];
-        }
-        if ($type == self::EDITED_MESSAGE) {
-            return @$this->data['edited_message']['text'];
+
+        if ($type === self::CALLBACK_QUERY) {
+            return $this->data['callback_query']['data'];
         }
 
-        return @$this->data['message']['text'];
+        if ($type === self::CHANNEL_POST) {
+            return $this->data['channel_post']['text'];
+        }
+
+        if ($type === self::EDITED_MESSAGE) {
+            return $this->data['edited_message']['text'];
+        }
+
+        return $this->data['message']['text'];
     }
 
     public function Caption()
     {
-        return @$this->data['message']['caption'];
+        return $this->data['message']['caption'];
     }
 
     /// Get the chat_id of the current message
@@ -1686,17 +1704,21 @@ class Telegram
     public function ChatID()
     {
         $type = $this->getUpdateType();
-        if ($type == self::CALLBACK_QUERY) {
-            return @$this->data['callback_query']['message']['chat']['id'];
+
+        if ($type === self::CALLBACK_QUERY) {
+            return $this->data['callback_query']['message']['chat']['id'];
         }
-        if ($type == self::CHANNEL_POST) {
-            return @$this->data['channel_post']['chat']['id'];
+
+        if ($type === self::CHANNEL_POST) {
+            return $this->data['channel_post']['chat']['id'];
         }
-        if ($type == self::EDITED_MESSAGE) {
-            return @$this->data['edited_message']['chat']['id'];
+
+        if ($type === self::EDITED_MESSAGE) {
+            return $this->data['edited_message']['chat']['id'];
         }
-        if ($type == self::INLINE_QUERY) {
-            return @$this->data['inline_query']['from']['id'];
+
+        if ($type === self::INLINE_QUERY) {
+            return $this->data['inline_query']['from']['id'];
         }
 
         return $this->data['message']['chat']['id'];
@@ -1710,14 +1732,17 @@ class Telegram
     public function MessageID()
     {
         $type = $this->getUpdateType();
-        if ($type == self::CALLBACK_QUERY) {
-            return @$this->data['callback_query']['message']['message_id'];
+
+        if ($type === self::CALLBACK_QUERY) {
+            return $this->data['callback_query']['message']['message_id'];
         }
-        if ($type == self::CHANNEL_POST) {
-            return @$this->data['channel_post']['message_id'];
+
+        if ($type === self::CHANNEL_POST) {
+            return $this->data['channel_post']['message_id'];
         }
-        if ($type == self::EDITED_MESSAGE) {
-            return @$this->data['edited_message']['message_id'];
+
+        if ($type === self::EDITED_MESSAGE) {
+            return $this->data['edited_message']['message_id'];
         }
 
         return $this->data['message']['message_id'];
@@ -1819,51 +1844,60 @@ class Telegram
     public function FirstName()
     {
         $type = $this->getUpdateType();
-        if ($type == self::CALLBACK_QUERY) {
-            return @$this->data['callback_query']['from']['first_name'];
-        }
-        if ($type == self::CHANNEL_POST) {
-            return @$this->data['channel_post']['from']['first_name'];
-        }
-        if ($type == self::EDITED_MESSAGE) {
-            return @$this->data['edited_message']['from']['first_name'];
+
+        if ($type === self::CALLBACK_QUERY) {
+            return $this->data['callback_query']['from']['first_name'];
         }
 
-        return @$this->data['message']['from']['first_name'];
+        if ($type === self::CHANNEL_POST) {
+            return $this->data['channel_post']['from']['first_name'];
+        }
+
+        if ($type === self::EDITED_MESSAGE) {
+            return $this->data['edited_message']['from']['first_name'];
+        }
+
+        return $this->data['message']['from']['first_name'];
     }
 
     /// Get the last name of the user
     public function LastName()
     {
         $type = $this->getUpdateType();
-        if ($type == self::CALLBACK_QUERY) {
-            return @$this->data['callback_query']['from']['last_name'];
-        }
-        if ($type == self::CHANNEL_POST) {
-            return @$this->data['channel_post']['from']['last_name'];
-        }
-        if ($type == self::EDITED_MESSAGE) {
-            return @$this->data['edited_message']['from']['last_name'];
+
+        if ($type === self::CALLBACK_QUERY) {
+            return $this->data['callback_query']['from']['last_name'];
         }
 
-        return @$this->data['message']['from']['last_name'];
+        if ($type === self::CHANNEL_POST) {
+            return $this->data['channel_post']['from']['last_name'];
+        }
+
+        if ($type === self::EDITED_MESSAGE) {
+            return $this->data['edited_message']['from']['last_name'];
+        }
+
+        return $this->data['message']['from']['last_name'];
     }
 
     /// Get the username of the user
     public function Username()
     {
         $type = $this->getUpdateType();
-        if ($type == self::CALLBACK_QUERY) {
-            return @$this->data['callback_query']['from']['username'];
-        }
-        if ($type == self::CHANNEL_POST) {
-            return @$this->data['channel_post']['from']['username'];
-        }
-        if ($type == self::EDITED_MESSAGE) {
-            return @$this->data['edited_message']['from']['username'];
+
+        if ($type === self::CALLBACK_QUERY) {
+            return $this->data['callback_query']['from']['username'];
         }
 
-        return @$this->data['message']['from']['username'];
+        if ($type === self::CHANNEL_POST) {
+            return $this->data['channel_post']['from']['username'];
+        }
+
+        if ($type === self::EDITED_MESSAGE) {
+            return $this->data['edited_message']['from']['username'];
+        }
+
+        return $this->data['message']['from']['username'];
     }
 
     /// Get the location in the message
@@ -1888,14 +1922,17 @@ class Telegram
     public function UserID()
     {
         $type = $this->getUpdateType();
-        if ($type == self::CALLBACK_QUERY) {
+
+        if ($type === self::CALLBACK_QUERY) {
             return $this->data['callback_query']['from']['id'];
         }
-        if ($type == self::CHANNEL_POST) {
+
+        if ($type === self::CHANNEL_POST) {
             return $this->data['channel_post']['from']['id'];
         }
-        if ($type == self::EDITED_MESSAGE) {
-            return @$this->data['edited_message']['from']['id'];
+
+        if ($type === self::EDITED_MESSAGE) {
+            return $this->data['edited_message']['from']['id'];
         }
 
         return $this->data['message']['from']['id'];
@@ -1920,7 +1957,7 @@ class Telegram
      */
     public function messageFromGroup()
     {
-        if ($this->data['message']['chat']['type'] == 'private') {
+        if ($this->data['message']['chat']['type'] === 'private') {
             return false;
         }
 
@@ -1934,7 +1971,7 @@ class Telegram
      */
     public function messageFromGroupTitle()
     {
-        if ($this->data['message']['chat']['type'] != 'private') {
+        if ($this->data['message']['chat']['type'] !== 'private') {
             return $this->data['message']['chat']['title'];
         }
     }
@@ -1956,9 +1993,8 @@ class Telegram
             'resize_keyboard' => $resize,
             'selective' => $selective,
         ];
-        $encodedMarkup = json_encode($replyMarkup, true);
 
-        return $encodedMarkup;
+        return json_encode($replyMarkup, true);
     }
 
     /// Set an InlineKeyBoard
@@ -1972,9 +2008,8 @@ class Telegram
         $replyMarkup = [
             'inline_keyboard' => $options,
         ];
-        $encodedMarkup = json_encode($replyMarkup, true);
 
-        return $encodedMarkup;
+        return json_encode($replyMarkup, true);
     }
 
     /// Create an InlineKeyboardButton
@@ -1988,23 +2023,27 @@ class Telegram
      * \param $callback_game  String Optional. Description of the game that will be launched when the user presses the button.
      * \param $pay  Boolean Optional. Specify True, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>.
      * \return the requested button as Array.
+     *
+     * @param null|mixed $switch_inline_query
+     * @param null|mixed $switch_inline_query_current_chat
      */
     public function buildInlineKeyboardButton($text, $url = '', $callback_data = '', $switch_inline_query = null, $switch_inline_query_current_chat = null, $callback_game = '', $pay = '')
     {
         $replyMarkup = [
             'text' => $text,
         ];
-        if ($url != '') {
+
+        if ($url !== '') {
             $replyMarkup['url'] = $url;
-        } elseif ($callback_data != '') {
+        } elseif ($callback_data !== '') {
             $replyMarkup['callback_data'] = $callback_data;
-        } elseif (!is_null($switch_inline_query)) {
+        } elseif ($switch_inline_query !== null) {
             $replyMarkup['switch_inline_query'] = $switch_inline_query;
-        } elseif (!is_null($switch_inline_query_current_chat)) {
+        } elseif ($switch_inline_query_current_chat !== null) {
             $replyMarkup['switch_inline_query_current_chat'] = $switch_inline_query_current_chat;
-        } elseif ($callback_game != '') {
+        } elseif ($callback_game !== '') {
             $replyMarkup['callback_game'] = $callback_game;
-        } elseif ($pay != '') {
+        } elseif ($pay !== '') {
             $replyMarkup['pay'] = $pay;
         }
 
@@ -2021,13 +2060,11 @@ class Telegram
      */
     public function buildKeyboardButton($text, $request_contact = false, $request_location = false)
     {
-        $replyMarkup = [
+        return [
             'text' => $text,
             'request_contact' => $request_contact,
             'request_location' => $request_location,
         ];
-
-        return $replyMarkup;
     }
 
     /// Hide a custom keyboard
@@ -2042,9 +2079,8 @@ class Telegram
             'remove_keyboard' => true,
             'selective' => $selective,
         ];
-        $encodedMarkup = json_encode($replyMarkup, true);
 
-        return $encodedMarkup;
+        return json_encode($replyMarkup, true);
     }
 
     /// Display a reply interface to the user
@@ -2058,9 +2094,8 @@ class Telegram
             'force_reply' => true,
             'selective' => $selective,
         ];
-        $encodedMarkup = json_encode($replyMarkup, true);
 
-        return $encodedMarkup;
+        return json_encode($replyMarkup, true);
     }
 
     // Payments
@@ -2974,6 +3009,7 @@ class Telegram
     {
         $content = ['offset' => $offset, 'limit' => $limit, 'timeout' => $timeout];
         $this->updates = $this->endpoint('getUpdates', $content);
+
         if ($update) {
             if (count($this->updates['result']) >= 1) { //for CLI working.
                 $last_element_id = $this->updates['result'][count($this->updates['result']) - 1]['update_id'] + 1;
@@ -3005,42 +3041,55 @@ class Telegram
     public function getUpdateType()
     {
         $update = $this->data;
+
         if (isset($update['inline_query'])) {
             return self::INLINE_QUERY;
         }
+
         if (isset($update['callback_query'])) {
             return self::CALLBACK_QUERY;
         }
+
         if (isset($update['edited_message'])) {
             return self::EDITED_MESSAGE;
         }
+
         if (isset($update['message']['reply_to_message'])) {
             return self::REPLY;
         }
+
         if (isset($update['message']['text'])) {
             return self::MESSAGE;
         }
+
         if (isset($update['message']['photo'])) {
             return self::PHOTO;
         }
+
         if (isset($update['message']['video'])) {
             return self::VIDEO;
         }
+
         if (isset($update['message']['audio'])) {
             return self::AUDIO;
         }
+
         if (isset($update['message']['voice'])) {
             return self::VOICE;
         }
+
         if (isset($update['message']['contact'])) {
             return self::CONTACT;
         }
+
         if (isset($update['message']['document'])) {
             return self::DOCUMENT;
         }
+
         if (isset($update['message']['location'])) {
             return self::LOCATION;
         }
+
         if (isset($update['channel_post'])) {
             return self::CHANNEL_POST;
         }
@@ -3058,42 +3107,46 @@ class Telegram
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
         if ($post) {
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
         }
-        echo "inside curl if";
-        if (!empty($this->proxy)) {
-            echo "inside proxy if";
-            if (array_key_exists("type", $this->proxy)) {
-                curl_setopt($ch, CURLOPT_PROXYTYPE, $this->proxy["type"]);
+        echo 'inside curl if';
+
+        if (! empty($this->proxy)) {
+            echo 'inside proxy if';
+
+            if (array_key_exists('type', $this->proxy)) {
+                curl_setopt($ch, CURLOPT_PROXYTYPE, $this->proxy['type']);
             }
 
-            if (array_key_exists("auth", $this->proxy)) {
-                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy["auth"]);
+            if (array_key_exists('auth', $this->proxy)) {
+                curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy['auth']);
             }
 
-            if (array_key_exists("url", $this->proxy)) {
-                echo "Proxy Url";
-                curl_setopt($ch, CURLOPT_PROXY, $this->proxy["url"]);
+            if (array_key_exists('url', $this->proxy)) {
+                echo 'Proxy Url';
+                curl_setopt($ch, CURLOPT_PROXY, $this->proxy['url']);
             }
 
-            if (array_key_exists("port", $this->proxy)) {
-                echo "Proxy port";
-                curl_setopt($ch, CURLOPT_PROXYPORT, $this->proxy["port"]);
+            if (array_key_exists('port', $this->proxy)) {
+                echo 'Proxy port';
+                curl_setopt($ch, CURLOPT_PROXYPORT, $this->proxy['port']);
             }
-
         }
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $result = curl_exec($ch);
+
         if ($result === false) {
             $result = json_encode(['ok' => false, 'curl_error_code' => curl_errno($ch), 'curl_error' => curl_error($ch)]);
         }
         echo $result;
         curl_close($ch);
+
         if ($this->log_errors) {
             if (class_exists('TelegramErrorLogger')) {
-                $loggerArray = ($this->getData() == null) ? [$content] : [$this->getData(), $content];
+                $loggerArray = ($this->getData() === null) ? [$content] : [$this->getData(), $content];
                 TelegramErrorLogger::log(json_decode($result, true), $loggerArray);
             }
         }
@@ -3103,11 +3156,11 @@ class Telegram
 }
 
 // Helper for Uploading file using CURL
-if (!function_exists('curl_file_create')) {
+if (! function_exists('curl_file_create')) {
     function curl_file_create($filename, $mimetype = '', $postname = '')
     {
-        return "@$filename;filename="
+        return "@${filename};filename="
             . ($postname ?: basename($filename))
-            . ($mimetype ? ";type=$mimetype" : '');
+            . ($mimetype ? ";type=${mimetype}" : '');
     }
 }
